@@ -53,7 +53,7 @@ double resconst::A1qp, resconst::A2qp;
 double resconst::B1q, resconst::B2q, resconst::B3q, resconst::B4q, resconst::B5q;
 double resconst::B1qp, resconst::B2qp, resconst::D1w_QED;
 double resconst::B1qHSCHM, resconst::B2qHSCHM, resconst::B3qHSCHM;
-double resconst::H1q, resconst::H2q, resconst::H3q, resconst::H4q, resconst::H1g, resconst::H2g;
+double resconst::H1q, resconst::H2q, resconst::H3q, resconst::H4q, resconst::H1g, resconst::H2g, resconst::H3g;
 double resconst::H1qp;
 double resconst::K1, resconst::K2, resconst::K3, resconst::K4;
 double resconst::C1ggdelta;
@@ -259,6 +259,7 @@ void resconst::init()
   H4q = 0.;
   H1g = 0.;
   H2g = 0.;
+  H3g = 0.;
 
   //to define resummation schemes, see: https://arxiv.org/pdf/hep-ph/0008184.pdf, https://arxiv.org/pdf/1209.0158.pdf
 
@@ -303,7 +304,11 @@ void resconst::init()
       H4q = k4+s4+k2*s2+k1*s3+k3*s1;
       H1g = CA*pi2/2. + 11./2.; // c_H in the limit m_t \to \infty is soupposed to be 11/2: 	arXiv:1311.1654 eq.86
       double costh1 = phasespace::costh;
-      H2g = pow(CA,2)*(3187./288. + 7./8.*mesq::LQ(costh1) + 157./72.*pi2 + 13./144.*pi4 - 55./18.*zeta3) + CA*CF*(-145./24. - 11./8.*mesq::LQ(costh1) - 3./4.*pi2) + 9./4.*pow(CF,2) - 5./96.*CA - 1./12.*CF - CA*NF*(287./144. + 5./36.*pi2 + 4./9.*zeta3) + CF*NF*(-41./24. + 1./2.*mesq::LQ(costh1) + zeta3);
+      double LQ1 = mesq::LQ(costh1);
+      double LQ2 = LQ1*LQ1;
+      H2g = pow(CA,2)*(3187./288. + 7./8.*LQ1 + 157./72.*pi2 + 13./144.*pi4 - 55./18.*zeta3) + CA*CF*(-145./24. - 11./8.*LQ1 - 3./4.*pi2) + 9./4.*pow(CF,2) - 5./96.*CA - 1./12.*CF - CA*NF*(287./144. + 5./36.*pi2 + 4./9.*zeta3) + CF*NF*(-41./24. + 1./2.*LQ1 + zeta3);
+
+      H3g = 26756779./279936. + 11./(16.*CA*CA) + 38639.*CA/864. - CA*CA*587./1728. + CA*CA*CA*75847825./1679616. - CF*2903./108. + 8849.*CA*CF/3456. - CA*CA*CF*63641./1728. - CF*CF*17./48. + CA*CF*CF*62./3.-CF*CF*CF*69./8. + (- CA*CA*CA*2623./576. - CA*CF*11./72. - CA*CA*CF*721./72. + CA*CF*CF*33./8.)*LQ1 + (+ 77.*CA*CA*CA*LQ2/96. - CA*CA*CF*121./96.)*LQ2 - 11.*NF/24. + 11.*NF/(8.*CA*CA) + 7.*CA*NF/432. - 16344607.*CA*CA*NF/839808. - 29.*CF*NF/288. - 230495.*CA*CF*NF/31104. + 391.*CF*CF*NF/192. + 5.*CA*NF*LQ1/288. - 55.*CA*CA*NF*LQ1/288. + CF*NF*LQ1/36. + 155.*CA*CF*NF*LQ1/72. - CF*CF*NF*LQ1 - 7.*CA*CA*NF*LQ2/48. + 11.*CA*CF*NF*LQ2/16. + 74795.*CA*NF*NF/52488. + 317.*CF*NF*NF/216. + 5.*CA*NF*NF*LQ1/288. + CF*NF*NF*LQ1/36. - CF*NF*NF*LQ2/12. - 795409.*pi2/31104. + 241151.*CA*pi2/10368. + 10591.*CA*CA*pi2/1152. + 1260769.*CA*CA*CA*pi2/279936. - 115.*CF*pi2/12. - 1015.*CA*CF*pi2/96. + 63.*CF*CF*pi2/16. - 137.*LQ1*pi2/96. + 49.*CA*CA*LQ1*pi2/32. - 77.*CA*CF*LQ1*pi2/32. - 329.*CA*NF*pi2/576. - 132971.*CA*CA*NF*pi2/139968. - 35.*CF*NF*pi2/64. - 2947.*CA*CF*NF*pi2/3456. + 7.*CF*NF*LQ1*pi2/8. - 55.*CA*NF*NF*pi2/1296. - 23.*CF*NF*NF*pi2/432. - 177739.*pi4/51840. + 2543.*CA*pi4/1152. + 23129.*CA*CA*CA*pi4/77760. - 15.*CF*pi4/8. + 29.*CA*CA*NF*pi4/25920. - CA*CF*NF*pi4/810. - 53.*CA*NF*NF*pi4/7776. - CF*NF*NF*pi4/3240. - 21671.*pi6/60480. + 7.*CA*pi6/128. + 47437.*CA*CA*CA*pi6/3265920. + 1111.*CA*CA*CA*zeta5/144. + 107.*CA*CA*NF*zeta5/72. + 19.*CA*CF*NF*zeta5/9. - 5.*CF*CF*NF*zeta5 - 233749.*zeta3/1296. - 3.*zeta3/(2.*CA*CA) - 8391.*CA*zeta3/128. - 31.*CA*CA*zeta3/384. - 2503801.*CA*CA*CA*zeta3/124416. + 2633.*CF*zeta3/64. - 115.*CA*CF*zeta3/64. + 5105.*CA*CA*CF*zeta3/256. + 13.*CF*CF*zeta3/32. - 407.*CA*CF*CF*zeta3/64. + NF*zeta3 - 3.*NF*zeta3/(CA*CA) - 7.*CA*NF*zeta3/128. - 19367.*CA*CA*NF*zeta3/20736. - 7.*CF*NF*zeta3/64. + 27341.*CA*CF*NF*zeta3/10368. + 141.*CF*CF*NF*zeta3/32. + 143.*CA*NF*NF*zeta3/243. - 7.*CF*NF*NF*zeta3/6. + 4205.*pi2*zeta3/288. - 1127.*CA*pi2*zeta3/288. - 77.*CA*CA*CA*pi2*zeta3/54. - 139.*CA*CA*NF*pi2*zeta3/216. + 65.*CA*CF*NF*pi2*zeta3/72. + 87.*zeta3*zeta3/2. - 13.*CA*CA*CA*zeta3*zeta3/36. + 7087.*zeta5/144.;
     }
 
   //Semi Hard scheme

@@ -42,7 +42,7 @@ namespace resconst
   extern double B1q, B2q, B3q, B4q, B5q;
   extern double B1qp, B2qp, D1w_QED;
   extern double B1qHSCHM, B2qHSCHM, B3qHSCHM;
-  extern double H1q, H2q, H3q, H4q, H1g, H2g;
+  extern double H1q, H2q, H3q, H4q, H1g, H2g, H3g;
   extern double H1qp;
   extern double K1, K2, K3, K4;
   extern double C1qqn, C2qqn;

@@ -482,7 +482,7 @@ void hcoeff::calc(double m2, double costh)
 						// cout << " h1gyyint : " << h1gyyint_(costh,m2) << endl;
 
 						//Resummation scale variations
-						H1st_gg += (-B1g*LQ -A1g/2.*LQ2);
+						//H1st_gg += (-B1g*LQ -A1g/2.*LQ2);
 
 						//Factorization scale variations
 						//if (!opts.mufevol)
@@ -513,7 +513,7 @@ void hcoeff::calc(double m2, double costh)
 						complex <double> H2st_qq_2  = C1gq_1[ii1]*C1gq_2[ii2];
 
 						//Resummation scale variations
-						H2st_gg +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1qg_1[ii1];
+						//H2st_gg +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1qg_1[ii1];
 						H2st_gq_1 +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1gq_1[ii1];
 						H2st_gq_2 +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1gq_2[ii2];
 
@@ -564,6 +564,19 @@ void hcoeff::calc(double m2, double costh)
 						// Hqq_2[idx]   = 0.;
 
 						if (opts.order_hcoef == 2)
+							continue;
+
+						// NNNLL Hard coefficients......................................................................................................................................................
+
+						//NNNLO
+						complex <double> H3st_gg = resconst::H3g;
+
+						//Renormalization sacale variations
+						H3st_gg   += -beta0*H2st_gg*LR  - (beta1*LR + pow(beta0,2)*pow(LR,2))*H1st_gg/2.;
+
+						Hgg[idx]     += as3/8.*H3st_gg;
+
+						if (opts.order_hcoef == 3)
 							continue;
 
 					}
@@ -1541,19 +1554,16 @@ void hcoeff::calc()
 						int ii2 = anomalous::index(i2,sign);
 						int idx = index(i1,i2,sign);
 
-						// Resummation scheme dependence
-						double H1g = (0,0);
-
 						// NLL Hard coefficients.......................................................................................................................................................
 
-						complex <double> H1st_gg = H1g + 2.*C1gg;
+						complex <double> H1st_gg = resconst::H1g;
 						complex <double> H1st_gq_1  = C1gq_1[ii1];
 						complex <double> H1st_gq_2  = C1gq_2[ii2];
 
 //						cout << " H1g : " << H1g << endl;
 //						cout << " C1gg : " << C1gg << endl;
 						//Resummation scale variations
-						H1st_gg += (-B1g*LQ -A1g/2.*LQ2);
+						//H1st_gg += (-B1g*LQ -A1g/2.*LQ2);
 
 						//Factorization scale variations
 						//if (!opts.mufevol)
@@ -1577,14 +1587,14 @@ void hcoeff::calc()
 						// NNLL Hard coefficients......................................................................................................................................................
 
 						//NNLO
-						complex <double> H2st_gg  = 2.*(H2ggM_1[ii1] + H2ggM_2[ii2] - pow(constants::CA, 2)*pow(G1N_1[ii1], 2) - pow(constants::CA, 2)*pow(G1N_2[ii2], 2));
+						complex <double> H2st_gg  = resconst::H2g; //2.*(H2ggM_1[ii1] + H2ggM_2[ii2] - pow(constants::CA, 2)*pow(G1N_1[ii1], 2) - pow(constants::CA, 2)*pow(G1N_2[ii2], 2));
 						complex <double> H2st_gq_1  = 4.*(H2gqM_1[ii1] - constants::CA*constants::CF*pow(G1N_1[ii1], 2));
 						complex <double> H2st_gq_2  = 4.*(H2gqM_2[ii2] - constants::CA*constants::CF*pow(G1N_2[ii2], 2));
 						complex <double> H2st_qq_1  = C1gq_1[ii1]*C1gq_2[ii2];
 						complex <double> H2st_qq_2  = C1gq_1[ii1]*C1gq_2[ii2];
 
 						//Resummation scale variations
-						H2st_gg +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1qg_1[ii1];
+						//H2st_gg +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1qg_1[ii1];
 						H2st_gq_1 +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1gq_1[ii1];
 						H2st_gq_2 +=  ((beta0 - B1g)*LQ -A1g/2.*LQ2)*C1gq_2[ii2];
 
@@ -1635,6 +1645,19 @@ void hcoeff::calc()
 						// Hqq_2[idx]   = 0.;
 
 						if (opts.order_hcoef == 2)
+							continue;
+
+						// NNNLL Hard coefficients......................................................................................................................................................
+
+						//NNNLO
+						complex <double> H3st_gg = resconst::H3g;
+
+						//Renormalization sacale variations
+						H3st_gg   += -beta0*H2st_gg*LR  - (beta1*LR + pow(beta0,2)*pow(LR,2))*H1st_gg/2.;
+
+						Hgg[idx]     += as3/8.*H3st_gg;
+
+						if (opts.order_hcoef == 3)
 							continue;
 
 					}
